@@ -1,6 +1,7 @@
 # Script to create the yolo-x coco format from the doclaynet dataset import os 
 import json 
 import shutil
+import os 
 
 
 def read_json(file_path:str) -> dict: 
@@ -19,37 +20,38 @@ class DatasetCreator:
     def __init__(self, file_path, dataset_name): 
         self.file_path = file_path 
         self.dataset_name = dataset_name
-        
-    
-    def create_dataset_dir(self): 
-        """
-        Creates the Initial Dataset Directory as suggested by the yolox dataset format on the repo 
-        
-        
-        Dataset should be 
-        annotations/
-        |__instances_train2017.json
-        |__instances_val2017.json 
-        
-        train2017/
-        |__img1.png 
-        |__img2.png
-        
-        val2017/ 
-        |__img1.png
-        |__img2.png
-        
-        """
         os.makedirs(self.dataset_name, exist_ok=True)
         os.makedirs(os.path.join(self.dataset_name, "annotations"), exist_ok=True)
         os.makedirs(os.path.join(self.dataset_name,"train2017"),exist_ok=True)
         os.makedirs(os.path.join(self.dataset_name,"val2017"),exist_ok=True)
         
+        
+    
+    # def create_dataset_dir(self): 
+    #     """
+    #     Creates the Initial Dataset Directory as suggested by the yolox dataset format on the repo 
+        
+        
+    #     Dataset should be 
+    #     annotations/
+    #     |__instances_train2017.json
+    #     |__instances_val2017.json 
+        
+    #     train2017/
+    #     |__img1.png 
+    #     |__img2.png
+        
+    #     val2017/ 
+    #     |__img1.png
+    #     |__img2.png
+        
+    #     """
+
     def make_dataset(self): 
         self.create_dataset_dir() # Creates the dataset directory 
         
-        train_json = read_json(os.path.join(self.file_path,"train.json"))
-        val_json = read_json(os.path.join(self.file_path,"val.json"))
+        train_json = read_json(os.path.join(self.file_path,"COCO/train.json"))
+        val_json = read_json(os.path.join(self.file_path,"COCO/val.json"))
         
         for images in train_json['images']: 
             shutil.copy(f"{self.file_path}/PNG/{images['file_name']}", f"{self.dataset_name}/train2017/")
