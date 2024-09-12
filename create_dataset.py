@@ -1,0 +1,1 @@
+# Script to create the yolo-x coco format from the doclaynet dataset 
